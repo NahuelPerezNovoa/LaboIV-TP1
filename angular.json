@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "LaboIV-TP1": {
+    "laboiv-tp1": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "LaboIV-TP1:build:production"
+              "buildTarget": "laboiv-tp1:build:production"
             },
             "development": {
-              "buildTarget": "LaboIV-TP1:build:development"
+              "buildTarget": "laboiv-tp1:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "LaboIV-TP1:build"
+            "buildTarget": "laboiv-tp1:build"
           }
         },
         "test": {

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Usuario } from '../../models/Usuario';
+import { Firestore } from '@angular/fire/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,7 @@ export class LoginComponent {
   contrasenia: string = "";
   notificacion: string = "";
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private firestore: Firestore) {}
   
   loguear(): void {
     if(this.mail != "" && this.contrasenia != ""){
@@ -44,8 +46,12 @@ export class LoginComponent {
   }
 
   guardarUsuarioLogueado(usuario: Usuario):void {
+    //Guardo en localStorage
     const usuarioString = JSON.stringify(usuario);
     localStorage.setItem("Tp1UsuarioLogueado", usuarioString);
+    //Logueo el inicio de sesion en firestore
+    let col = collection(this.firestore, 'logins');
+    addDoc(col,{fecha: new Date(), "user": usuario.mail});
   }
 
   mostrarNotificacion(mensaje: string): void {

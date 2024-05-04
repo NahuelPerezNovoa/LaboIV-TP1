@@ -1,5 +1,16 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">  
-    <div id="navbar" class="navbar-menu">
+  <div class="navbar-brand">
+    <div class="navbar-start">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" (click)="toggleNavbar()">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+  
+    <div id="mi-navbar" class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item" (click)="goTo('/home')">
           Home
@@ -10,10 +21,15 @@
       </div>
   
       <div class="navbar-end">
+        @if (usuario != null) {
+          <div class="navbar-item">
+            <h5 class="title is-5">{{usuario}}</h5>
+          </div>
+        }
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary" (click)="cerrarSesion()">
-              <strong>Cerrar Sesión</strong>
+            <a class="button is-primary" (click)="userButtonClick()">
+              <strong>{{userButton}}</strong>
             </a>
           </div>
         </div>
@@ -21,5 +37,71 @@
     </div>
   </nav>
 
-
-<h1 class="title is-2 pt-5">{{mensaje}}</h1>
+<div style="width: 90vw; margin: auto;">
+  <div class="grid gap-7 pt-6">
+    <div class="cell p-2 m-2">
+      <div class="card">
+        <div class="card-image p-3">
+          <figure class="image is-4by3">
+            <img
+              src="../../../assets/tateti.png"
+              alt="Placeholder image"
+            />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-3 p-2" style="text-align: center;">Tateti</p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cell p-2 m-2">
+      <div class="card">
+        <div class="card-image p-3">
+          <figure class="image is-4by3">
+            <img
+              src="../../../assets/memotest.png"
+              alt="Placeholder image"
+            />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-3 p-2" style="text-align: center;">Memotest</p>
+        </div>
+      </div>
+    </div>
+  
+    <div class="cell p-2 m-2">
+      <div class="card">
+        <div class="card-image p-3">
+          <figure class="image is-4by3">
+            <img
+              src="../../../assets/ppt.jpg"
+              alt="Placeholder image"
+            />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-3 p-2" style="text-align: center;">Piedra, papel o tijeras</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="cell p-2 m-2">
+      <div class="card">
+        <div class="card-image p-3">
+          <figure class="image is-4by3">
+            <img
+              src="../../../assets/jueguito.png"
+              alt="Placeholder image"
+            />
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-3 p-2" style="text-align: center;">Otro juego</p>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+</div>

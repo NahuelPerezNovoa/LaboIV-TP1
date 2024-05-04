@@ -1,21 +1,33 @@
 <link href='https://fonts.googleapis.com/css?family=Ubuntu:500' rel='stylesheet' type='text/css'>
 
 <div class="login">
-    <div class="login-form">
-      <div class="login-header">
-        <h1>Login</h1>
-      </div>
+  <div class="login-form">
+    <div class="login-header">
+      <h1>Login</h1>
+    </div>
+
     <h3>Mail:</h3>
     <input type="email" placeholder="Mail"  [(ngModel)]="mail"/><br>
+
     <h3>Contraseña</h3>
     <input type="password" placeholder="Contraseña" [(ngModel)]="contrasenia"/>
-    <br>
-    <button class="button is-link" (click)="loguear()">Login</button>
-    <br>
-    <button class="button is-link is-outlined mt-2" [routerLink]="['/registrar']">Registrate!</button>
+    
+    <div class="flex-container-horizontal">
+      <div>
+        <button class="button is-link is-inverted" (click)="fastAccessClick()">Acceso rápido</button>
+      </div>
+
+      <div class="flex-container-vertical">
+        <button class="button is-link" (click)="loguear()">Login</button>
+
+        <button class="button is-link is-outlined mt-2" [routerLink]="['/registrar']">Registrate!</button>
+      </div>
+    </div>
   </div>
+
   <div class="notification is-danger is-light" style="visibility: hidden;">
     <button class="delete" (click)="esconderNotificacion()"></button>
     {{notificacion}}
   </div>
+
 </div>

@@ -1,6 +1,6 @@
 export class Usuario {
-    mail: String;
-    clave: String;
+    mail: string;
+    clave: string;
     
     constructor(mail:string, clave:string){
         this.mail = mail;

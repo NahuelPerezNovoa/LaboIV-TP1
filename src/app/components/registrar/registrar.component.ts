@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/Usuario';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Firestore } from '@angular/fire/firestore';
 import { addDoc, collection } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword, AuthErrorCodes } from 'firebase/auth';
 
 @Component({
   selector: 'app-registrar',
@@ -12,53 +13,62 @@ import { addDoc, collection } from 'firebase/firestore';
   templateUrl: './registrar.component.html',
   styleUrl: './registrar.component.scss'
 })
-export class RegistrarComponent {
-  usuarios!: [Usuario] | null;
+export class RegistrarComponent implements OnInit {
   mail: string = "";
   contrasenia: string = "";
   notificacion: string = "";
 
   constructor(private router: Router, private firestore: Firestore) {}
 
+  ngOnInit(): void {
+    const usuario = localStorage.getItem("Tp1UsuarioLogueado");
+    if(usuario != null && usuario != undefined){
+      this.goToHome();
+    }
+  }
+
   registrar(): void {
     if(this.mail != "" && this.contrasenia != ""){
-      const nuevoUsuario: Usuario = new Usuario(this.mail,this.contrasenia);
-      const strUsuarios = localStorage.getItem("Tp1Usuarios");
-      this.usuarios = JSON.parse(strUsuarios!);
-      
-      if(this.usuarios == null || this.usuarios == undefined){
-        this.usuarios = [nuevoUsuario];
-        this.guardarUsuarios();
-        this.guardarUsuarioLogueado(nuevoUsuario);
-        this.goToHome();
-      }else{
-        for (let element of this.usuarios!){
-          if(element.mail == nuevoUsuario.mail){
-            this.mostrarNotificacion("Este mail ya está registrado. Pruebe iniciando sesión.");
-            return
+
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, this.mail, this.contrasenia)
+        .then((userCredential) => {
+          // Signed up 
+          const user = userCredential.user;
+          this.guardarUsuarioLogueado(user.email!);
+          this.goToHome();
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          switch(errorCode){
+            case AuthErrorCodes.INVALID_EMAIL:
+              this.mostrarNotificacion('Email inválido.');
+              break;
+            case AuthErrorCodes.EMAIL_EXISTS:
+              this.mostrarNotificacion('Este email ya se encuentra registrado.');
+              break;
+            case AuthErrorCodes.OPERATION_NOT_ALLOWED:
+              this.mostrarNotificacion('Operación no permitida.');
+              break;
+            case AuthErrorCodes.WEAK_PASSWORD:
+              this.mostrarNotificacion('Contraseña débil.');
+              break;
+            default:
+              this.mostrarNotificacion("Ha ocurrido un error al registrar. Intente de nuevo mas tarde.");
+              break;
           }
-        };        
-        this.usuarios!.push(nuevoUsuario);
-        this.guardarUsuarios();
-        this.guardarUsuarioLogueado(nuevoUsuario);
-        this.goToHome();
-      }
+        });
     }else{
       this.mostrarNotificacion("Complete ambos campos");
     }
   }
 
-  guardarUsuarios():void {
-    const usuariosString = JSON.stringify(this.usuarios);
-    localStorage.setItem("Tp1Usuarios", usuariosString);
-  }
-
-  guardarUsuarioLogueado(usuario: Usuario):void {
-    const usuarioString = JSON.stringify(usuario);
-    localStorage.setItem("Tp1UsuarioLogueado", usuarioString);
+  guardarUsuarioLogueado(user: string):void {
+    localStorage.setItem("Tp1UsuarioLogueado", user);
     //Logueo el inicio de sesion en firestore
     let col = collection(this.firestore, 'logins');
-    addDoc(col,{fecha: new Date(), "user": usuario.mail});
+    addDoc(col,{fecha: new Date(), "user": user});
   }
 
   goToHome():void{

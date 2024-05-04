@@ -10,28 +10,44 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-  mensaje:String = ""
+  userButton:string = ""
+  usuario:string | null = null
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    const strUsuario = localStorage.getItem("Tp1UsuarioLogueado");
-    const usuario: Usuario = JSON.parse(strUsuario!);
-    if(usuario == null || usuario == undefined){
-      this.goTo('/login');
+    this.usuario = localStorage.getItem("Tp1UsuarioLogueado");
+    if(this.usuario == null || this.usuario == undefined){
+      this.userButton = UserButtonActions.Ingresar;
+    }else{
+      this.userButton = UserButtonActions.Salir
     }
-    this.mensaje = "Bienvenido "+usuario.mail;
   }
 
   goTo(path: string):void{
     this.router.navigate([path]);
   }
 
-  
-
   cerrarSesion():void{
     localStorage.removeItem("Tp1UsuarioLogueado");
     this.goTo('/login');
   }
 
+  userButtonClick():void{
+    if(this.userButton == UserButtonActions.Ingresar){
+      this.goTo('/login');
+    }else if(this.userButton == UserButtonActions.Salir){
+      this.cerrarSesion();
+    }
+  }  
+
+  toggleNavbar() {
+    const navbar = document.getElementById('mi-navbar') as HTMLElement;
+    navbar.classList.toggle('is-active');
+  }  
+}
+
+enum UserButtonActions {
+  Ingresar = "Ingresar",
+  Salir = "Cerrar Sesión"
 }

@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Usuario } from '../../models/Usuario';
 import { Firestore } from '@angular/fire/firestore';
 import { addDoc, collection } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword, AuthErrorCodes } from 'firebase/auth';
 
 @Component({
   selector: 'app-login',
@@ -12,46 +13,68 @@ import { addDoc, collection } from 'firebase/firestore';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   mail: string = "";
   contrasenia: string = "";
   notificacion: string = "";
 
   constructor(private router: Router, private firestore: Firestore) {}
+
+  ngOnInit(): void {
+    const usuario = localStorage.getItem("Tp1UsuarioLogueado");
+    if(usuario != null && usuario != undefined){
+      this.goToHome();
+    }
+  }
   
   loguear(): void {
     if(this.mail != "" && this.contrasenia != ""){
-      const strUsuarios = localStorage.getItem("Tp1Usuarios");
-      const usuarios: [Usuario] = JSON.parse(strUsuarios!);
-
-      if(usuarios == null || usuarios == undefined){
-        this.mostrarNotificacion("Usuario no registrado. Registrese.");
-      }else{
-        for (let element of usuarios!){
-          if(element.mail == this.mail){
-            if(element.clave == this.contrasenia){
-              this.guardarUsuarioLogueado(element);
-              this.goToHome();
-            }else{
-              this.mostrarNotificacion("Contraseña incorrecta.");
-            }
-            return;
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, this.mail, this.contrasenia)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          this.guardarUsuarioLogueado(user.email!);
+          this.goToHome();
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          switch(errorCode){
+            case AuthErrorCodes.INVALID_EMAIL:
+              this.mostrarNotificacion('Email inválido.');
+              break;
+            case AuthErrorCodes.USER_DISABLED:
+              this.mostrarNotificacion('Este usuario ha sido deshabilitado.');
+              break;
+            case AuthErrorCodes.USER_MISMATCH:
+              this.mostrarNotificacion('Usuario no encontrado.');
+              break;
+            case AuthErrorCodes.INVALID_PASSWORD:
+              this.mostrarNotificacion('Contraseña incorrecta.');
+              break;
+            case AuthErrorCodes.INVALID_LOGIN_CREDENTIALS:
+              this.mostrarNotificacion('Usuario o contraseña incorrecta.');
+              break;
+            default:
+              this.mostrarNotificacion("Ha ocurrido un error al registrar. Intente de nuevo mas tarde.");
+              break;
           }
-        };   
-        this.mostrarNotificacion("Usuario no registrado. Registrese."); 
-      }
+        });
     }else{
       this.mostrarNotificacion("Complete ambos campos");
     }
   }
 
-  guardarUsuarioLogueado(usuario: Usuario):void {
-    //Guardo en localStorage
-    const usuarioString = JSON.stringify(usuario);
-    localStorage.setItem("Tp1UsuarioLogueado", usuarioString);
+  guardarUsuarioLogueado(user: string):void {
+    localStorage.setItem("Tp1UsuarioLogueado", user);
     //Logueo el inicio de sesion en firestore
     let col = collection(this.firestore, 'logins');
-    addDoc(col,{fecha: new Date(), "user": usuario.mail});
+    addDoc(col,{fecha: new Date(), "user": user});
+  }
+
+  goToHome():void{
+    this.router.navigate(['/home']);
   }
 
   mostrarNotificacion(mensaje: string): void {
@@ -66,9 +89,8 @@ export class LoginComponent {
     notificationElement.style.visibility = 'hidden';
   }
 
-  
-  goToHome():void{
-    this.router.navigate(['/home']);
+  fastAccessClick():void {
+    this.mail = "usuariodeprueba@laboratorioiv.com";
+    this.contrasenia = "12345678";
   }
-
 }

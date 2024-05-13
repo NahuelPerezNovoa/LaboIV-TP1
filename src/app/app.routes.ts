@@ -11,5 +11,6 @@ export const routes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'login', component: LoginComponent },
     { path: 'registrar', component: RegistrarComponent },
+    //{ path: '/home/logged', loadComponent: () => import('./components/chat/chat.component').then(m => m.ChatComponent)},
     { path: '**', component: ErrorComponent },
 ];

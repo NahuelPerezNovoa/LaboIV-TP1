@@ -1,0 +1,14 @@
+@if (chat.length != 0){
+    <div class="chat-container">
+        <div class="messages">
+            <div *ngFor="let message of chat" [class]="message.user === user ? 'message-user' : 'message-other'">
+                <p><strong>{{message.user}}</strong> ({{getLocaleString(message.timestamp)}})</p>
+                <p>{{message.text}}</p>
+            </div>
+        </div>
+        <div class="input-area">
+            <input [(ngModel)]="newMessage" placeholder="Escribe un mensaje...">
+            <button (click)="sendMessage()">Enviar</button>
+        </div>
+    </div>
+}

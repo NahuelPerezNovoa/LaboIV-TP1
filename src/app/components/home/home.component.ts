@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../../models/Usuario';
 import { Router } from '@angular/router';
+import { ChatComponent } from '../chat/chat.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [ChatComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

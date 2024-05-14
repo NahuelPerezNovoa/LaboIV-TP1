@@ -11,5 +11,11 @@ export const routes: Routes = [
     { path: 'about', loadComponent: () => import('./components/about/about.component').then(m => m.AboutComponent)},
     { path: 'login', loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent)},
     { path: 'registrar', loadComponent: () => import('./components/registrar/registrar.component').then(m => m.RegistrarComponent)},
+
+    //Juegos
+    { path: 'mayormenor', loadComponent: () => import('./components/mayormenor/mayormenor.component').then(m => m.MayormenorComponent)},
+    { path: 'ahorcado', loadComponent: () => import('./components/ahorcado/ahorcado.component').then(m => m.AhorcadoComponent)},
+
+    //Default
     { path: '**', component: ErrorComponent },
 ];

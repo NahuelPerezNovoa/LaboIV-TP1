@@ -1,0 +1,11 @@
+<div class="container has-text-centered">
+    <img src="../../../assets/ahorcado.png" alt="Imagen" class="life-image"/>
+    <p class="title is-2">{{ getDisplayWord() }}</p>
+    <p>Intentos: {{ attempts }}</p>
+    <div class="buttons">
+      <button *ngFor="let letter of alphabet" (click)="guessLetter(letter)"  id="letter-{{ letter }}" class="button is-primary">
+        {{ letter }}
+      </button>
+    </div>
+  </div>
+  

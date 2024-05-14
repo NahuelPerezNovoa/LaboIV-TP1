@@ -46,6 +46,8 @@
             <img
               src="../../../assets/ahorcado.png"
               alt="Placeholder image"
+              class="games"
+              (click)="goTo('/ahorcado')"
             />
           </figure>
         </div>
@@ -62,6 +64,8 @@
             <img
               src="../../../assets/naipes.jpg"
               alt="Placeholder image"
+              class="games"
+              (click)="goTo('/mayormenor')"
             />
           </figure>
         </div>
@@ -78,6 +82,7 @@
             <img
               src="../../../assets/pregutados.jpg"
               alt="Placeholder image"
+              class="games"
             />
           </figure>
         </div>
@@ -94,6 +99,7 @@
             <img
               src="../../../assets/jueguito.png"
               alt="Placeholder image"
+              class="games"
             />
           </figure>
         </div>
@@ -110,6 +116,6 @@
 @if (usuario != null){
   <div class = "pt-6" style="width: 80vw; height: 50vh; margin: auto;">
     <p class="title is-4 pt-6" style="text-align: center;">Chateá con la comunidad</p>
-    <app-chat user={{usuario}} style="height: 50vh;"></app-chat>
+    <app-chat [user]='usuario' style="height: 50vh;"></app-chat>
   </div>
 }

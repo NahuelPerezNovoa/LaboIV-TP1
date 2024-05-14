@@ -1,0 +1,14 @@
+<div class="card-container pt-6">
+
+    <img [src]='image' alt="Imagen" class="card-image">
+    <div id="play-buttons" class="button-group">
+        <button class="button is-primary" (click)="play('Mayor')">MAYOR</button>
+        <button class="button is-primary" (click)="play('Menor')">MENOR</button>
+    </div>
+    <button id="start-button" class="button is-link" (click)="play('Nuevo')">COMENZAR</button>
+
+    <div class="box">
+        <p class="title is-4" [style]="isPlaying ? 'color : cornflowerblue' : 'color : red'">Puntos</p>
+        <p class="title is-2" [style]="isPlaying ? 'color : cornflowerblue' : 'color : red'">{{points}}</p>
+    </div>
+</div>

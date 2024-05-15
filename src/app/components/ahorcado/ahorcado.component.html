@@ -1,11 +1,19 @@
-<div class="container has-text-centered">
-    <img src="../../../assets/ahorcado.png" alt="Imagen" class="life-image"/>
+<div class="container has-text-centered mt-6">
+    <img src="../../../assets/{{attempts}}-vida.jpg" alt="Imagen" class="life-image"/>
     <p class="title is-2">{{ getDisplayWord() }}</p>
-    <p>Intentos: {{ attempts }}</p>
-    <div class="buttons">
-      <button *ngFor="let letter of alphabet" (click)="guessLetter(letter)"  id="letter-{{ letter }}" class="button is-primary">
+    <p>Vidas: {{ attempts }}</p>
+
+    <div class="notification is-danger is-light mt-4" style="visibility: hidden;">
+        <button class="delete" (click)="esconderNotificacion()"></button>
+        PERDISTE. Acertaste un total de {{rightWordsCounter}} palabras.
+    </div>
+
+    <button id="next" class="button is-primary mb-6" style="visibility: hidden;" (click)="siguienteClick()">SIGUIENTE</button>
+
+    <div id="alphabet-container" class="buttons">
+      <button *ngFor="let letter of alphabet" (click)="guessLetter(letter)"  id="letter-{{ letter }}" class="alphabet">
         {{ letter }}
       </button>
     </div>
-  </div>
+</div>
   

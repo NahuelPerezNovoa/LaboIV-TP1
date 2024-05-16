@@ -53,7 +53,6 @@ export class ChatComponent implements OnInit {
       observable.subscribe((respuesta:any) => {
 
         this.chat = respuesta;
-        console.log(respuesta);
       })
   }
 

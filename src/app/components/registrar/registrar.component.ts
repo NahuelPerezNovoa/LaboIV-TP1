@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Usuario } from '../../models/Usuario';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Firestore } from '@angular/fire/firestore';
 import { addDoc, collection } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword, AuthErrorCodes } from 'firebase/auth';
+import { LocalUserService } from '../../services/local-user.service';
 
 @Component({
   selector: 'app-registrar',
@@ -14,6 +15,7 @@ import { getAuth, createUserWithEmailAndPassword, AuthErrorCodes } from 'firebas
   styleUrl: './registrar.component.scss'
 })
 export class RegistrarComponent implements OnInit {
+  localUserService = inject(LocalUserService);
   mail: string = "";
   contrasenia: string = "";
   notificacion: string = "";
@@ -21,7 +23,7 @@ export class RegistrarComponent implements OnInit {
   constructor(private router: Router, private firestore: Firestore) {}
 
   ngOnInit(): void {
-    const usuario = localStorage.getItem("Tp1UsuarioLogueado");
+    const usuario = this.localUserService.localUser;
     if(usuario != null && usuario != undefined){
       this.goToHome();
     }
@@ -65,7 +67,7 @@ export class RegistrarComponent implements OnInit {
   }
 
   guardarUsuarioLogueado(user: string):void {
-    localStorage.setItem("Tp1UsuarioLogueado", user);
+    this.localUserService.setActualUser(user);
     //Logueo el inicio de sesion en firestore
     let col = collection(this.firestore, 'logins');
     addDoc(col,{fecha: new Date(), "user": user});

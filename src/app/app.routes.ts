@@ -17,5 +17,5 @@ export const routes: Routes = [
     { path: 'ahorcado', loadComponent: () => import('./components/ahorcado/ahorcado.component').then(m => m.AhorcadoComponent)},
 
     //Default
-    { path: '**', component: ErrorComponent },
+    { path: '**', loadComponent: () => import('./components/error/error.component').then(m => m.ErrorComponent)}
 ];

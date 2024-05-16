@@ -1,1 +1,41 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">  
+    <div class="navbar-brand">
+      <div class="navbar-start">
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" (click)="toggleNavbar()">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+    </div>
+    
+      <div id="mi-navbar" class="navbar-menu">
+        <div class="navbar-start">
+          <a class="navbar-item" (click)="goTo('/home')">
+            Home
+          </a>
+          <a class="navbar-item" (click)="goTo('/about')">
+            Quien soy
+          </a>
+        </div>
+    
+        <div class="navbar-end">
+          @if (usuario != null) {
+            <div class="navbar-item">
+              <h5 class="title is-5">{{usuario}}</h5>
+            </div>
+          }
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary" (click)="userButtonClick()">
+                <strong>{{userButton}}</strong>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    
 <router-outlet />

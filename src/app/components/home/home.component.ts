@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../../models/Usuario';
+import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatComponent } from '../chat/chat.component';
+import { LocalUserService } from '../../services/local-user.service';
 
 @Component({
   selector: 'app-home',
@@ -11,44 +11,35 @@ import { ChatComponent } from '../chat/chat.component';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-  userButton:string = ""
   usuario:string | null = null
+  notificacion: string = "";
+
+
+  localUserService = inject(LocalUserService);
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.usuario = localStorage.getItem("Tp1UsuarioLogueado");
-    if(this.usuario == null || this.usuario == undefined){
-      this.userButton = UserButtonActions.Ingresar;
-    }else{
-      this.userButton = UserButtonActions.Salir
-    }
+    this.usuario = this.localUserService.localUser;
   }
 
   goTo(path: string):void{
-    this.router.navigate([path]);
-  }
-
-  cerrarSesion():void{
-    localStorage.removeItem("Tp1UsuarioLogueado");
-    this.goTo('/login');
-  }
-
-  userButtonClick():void{
-    if(this.userButton == UserButtonActions.Ingresar){
-      this.goTo('/login');
-    }else if(this.userButton == UserButtonActions.Salir){
-      this.cerrarSesion();
+    if(this.usuario == null){
+      this.mostrarNotificacion("Logueate para acceder a los juegos!")
+    }else{
+      this.router.navigate([path]);
     }
-  }  
+  }
 
-  toggleNavbar() {
-    const navbar = document.getElementById('mi-navbar') as HTMLElement;
-    navbar.classList.toggle('is-active');
-  }  
-}
+  mostrarNotificacion(mensaje: string): void {
+    this.notificacion = mensaje;
+    const notificationElement = document.querySelector('.notification') as HTMLElement;
+    notificationElement.style.visibility = 'visible';
+  }
 
-enum UserButtonActions {
-  Ingresar = "Ingresar",
-  Salir = "Cerrar Sesión"
+  esconderNotificacion(): void {
+    this.notificacion = ''; 
+    const notificationElement = document.querySelector('.notification') as HTMLElement;
+    notificationElement.style.visibility = 'hidden';
+  }
 }

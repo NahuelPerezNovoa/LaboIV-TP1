@@ -11,13 +11,4 @@ import { Router } from '@angular/router';
 export class AboutComponent {
 
   constructor(private router: Router) {}
-
-  goTo(path: string):void{
-    this.router.navigate([path]);
-  }
-
-  cerrarSesion():void{
-    localStorage.removeItem("Tp1UsuarioLogueado");
-    this.goTo('/login');
-  }
 }

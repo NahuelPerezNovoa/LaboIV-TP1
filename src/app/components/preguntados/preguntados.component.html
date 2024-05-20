@@ -1,0 +1,18 @@
+<div class="card-container pt-6">
+
+    <img [src]='image' alt="Imagen" class="card-image">
+
+    <h1 class="title is-4 pt-6">¿De que pais es la bandera?</h1>
+    
+    <div id="play-buttons" class="button-group">
+        <button class="button is-primary" (click)="play('A')">{{opciones[0].translations.spa.common}}</button>
+        <button class="button is-primary" (click)="play('B')">{{opciones[1].translations.spa.common}}</button>
+        <button class="button is-primary" (click)="play('C')">{{opciones[2].translations.spa.common}}</button>
+    </div>
+    <button id="start-button" class="button is-link" (click)="play('Nuevo')">COMENZAR</button>
+
+    <div class="box">
+        <p class="title is-4" [style]="isPlaying ? 'color : cornflowerblue' : 'color : red'">Puntos</p>
+        <p class="title is-2" [style]="isPlaying ? 'color : cornflowerblue' : 'color : red'">{{points}}</p>
+    </div>
+</div>

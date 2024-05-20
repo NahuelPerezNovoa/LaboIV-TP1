@@ -15,6 +15,8 @@ export const routes: Routes = [
     //Juegos
     { path: 'mayormenor', loadComponent: () => import('./components/mayormenor/mayormenor.component').then(m => m.MayormenorComponent)},
     { path: 'ahorcado', loadComponent: () => import('./components/ahorcado/ahorcado.component').then(m => m.AhorcadoComponent)},
+    { path: 'preguntados', loadComponent: () => import('./components/preguntados/preguntados.component').then(m => m.PreguntadosComponent)},
+
 
     //Default
     { path: '**', loadComponent: () => import('./components/error/error.component').then(m => m.ErrorComponent)}

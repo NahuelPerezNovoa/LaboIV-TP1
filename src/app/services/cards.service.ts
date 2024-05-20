@@ -11,8 +11,8 @@ export class CardsService {
 
   constructor() { }
 
-  getCard() {
-    return this.http.get<DeckResponse>('https://www.deckofcardsapi.com/api/deck/new/draw/?count=1')
+  getCard(deck: string | null) {
+    return this.http.get<DeckResponse>('https://www.deckofcardsapi.com/api/deck/'+ (deck? deck : "new") +'/draw/?count=1')
   }
   
 }

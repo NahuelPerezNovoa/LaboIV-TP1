@@ -17,15 +17,7 @@ export class MayormenorComponent implements OnInit {
     isPlaying = false
     startImage = "https://img.freepik.com/foto-gratis/conceptual_1122-1955.jpg?t=st=1715655492~exp=1715659092~hmac=a806ed43b998f8bf90cfc710351a8cefa9cd6b2b60d3b2b047a9e04bcc8aae8e&w=740";
     image = this.startImage
-
-    
-    public get number() : string | undefined {
-      return this.getNumberValue(this.card?.value)
-    }
-
-    public get suit() : string | undefined {
-      return this.card?.suit 
-    }    
+    deck: string | null = null
 
     constructor(private cardService: CardsService){}
 
@@ -34,7 +26,8 @@ export class MayormenorComponent implements OnInit {
     }
 
     play(option:string){
-      this.cardService.getCard().subscribe(response => {
+      this.cardService.getCard(this.deck).subscribe(response => {
+        if(this.deck == null) this.deck = response.deck_id
         const newCard = response.cards[0]
         switch(option){
           case playOptions.Nuevo:
@@ -47,6 +40,7 @@ export class MayormenorComponent implements OnInit {
             }else if(+this.getNumberValue(newCard.value)! < +this.getNumberValue(this.card!.value)!){
               this.isPlaying = false
               this.image = this.startImage
+              this.deck = null
             }
             break;
           case playOptions.Menor:
@@ -55,6 +49,7 @@ export class MayormenorComponent implements OnInit {
             }else if(+this.getNumberValue(newCard.value)! > +this.getNumberValue(this.card!.value)!){
               this.isPlaying = false
               this.image = this.startImage
+              this.deck = null
             }
             break;
         }

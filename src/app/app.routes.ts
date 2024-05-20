@@ -16,6 +16,7 @@ export const routes: Routes = [
     { path: 'mayormenor', loadComponent: () => import('./components/mayormenor/mayormenor.component').then(m => m.MayormenorComponent)},
     { path: 'ahorcado', loadComponent: () => import('./components/ahorcado/ahorcado.component').then(m => m.AhorcadoComponent)},
     { path: 'preguntados', loadComponent: () => import('./components/preguntados/preguntados.component').then(m => m.PreguntadosComponent)},
+    { path: 'blackjack', loadComponent: () => import('./components/blackjack/blackjack.component').then(m => m.BlackjackComponent)},
 
 
     //Default

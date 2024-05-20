@@ -1,0 +1,24 @@
+<div class="card-container pt-6">
+
+    <div class="hand-container">
+        @for (image of images; track $index) {
+            <img [src]='image' alt="Imagen" class="card-image m-2">
+        }
+    </div>
+
+    <div id="play-buttons" class="button-group">
+        <button class="button is-primary" (click)="play('Otra')">OTRA CARTA</button>
+        <button class="button is-danger" (click)="play('Fuera')">ESTOY FUERA</button>
+    </div>
+
+    @if (sumaTotal != 0) {
+        <p class="title is-5 pt-6">Total: {{sumaTotal}}</p>
+    }
+
+    <button id="start-button" class="button is-link" (click)="play('Nuevo')">COMENZAR</button>
+
+    <div class="box">
+        <p class="title is-4" [style]="getBoardColor()">Puntos</p>
+        <p class="title is-2" [style]="getBoardColor()">{{points}}</p>
+    </div>
+</div>

@@ -9,8 +9,7 @@
         </div>
         <div class="column is-4">
           <p>
-            Hola, soy Nahuel Pérez Novoa. Soy desarrollador mobile con 2 años de experiencia laboral, pero realmente me cuesta bastante web.
-            Aún asi, aca estamos, poniendole onda!
+            {{descripcionMia}}
           </p>
         </div>
       </div>
@@ -22,9 +21,7 @@
       <h2 class="title is-4">Mi juego</h2>
       <div class="columns">
         <div class="column is-7">
-          <p>
-            Esta es la descripcion de mi juego, todavia no se cual voy a hacer, pero lo estaré subiendo proximamente.
-          </p>
+          <p [innerHTML]="descripcionJuego"> </p>
         </div>
       </div>
     </div>

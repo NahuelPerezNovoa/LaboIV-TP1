@@ -71,12 +71,12 @@ License: "MIT"
 
 
 --------------------------------------------------------------------------------
-Package: @angular/common
+Package: @angular/forms
 License: "MIT"
 
 
 --------------------------------------------------------------------------------
-Package: @angular/forms
+Package: @angular/common
 License: "MIT"
 
 
